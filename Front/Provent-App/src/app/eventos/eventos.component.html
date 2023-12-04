@@ -18,8 +18,10 @@
   <thead class="thead-dark">
     <tr>
       <th>#</th>
-      <th><button type="button" class="btn btn-outline-light btn-sm" (click)="isCollapsed = !isCollapsed"
+      <th>
+        <button type="button" class="btn btn-outline-light btn-sm" (click)="isCollapsed = !isCollapsed"
         [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
+        <i class="{{isCollapsed ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></i>
         {{isCollapsed ? 'Exibir Imagem' : 'Ocultar Imagem'}}
       </button></th>
       <th>Tema</th>
@@ -32,7 +34,7 @@
   </thead>
   <tbody *ngIf="eventos && eventos.length">
     <tr *ngFor="let evento of eventosFiltrados">
-      <td>{{evento.eventoId}}</td>
+      <td>{{evento.id}}</td>
       <td>
         <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
           <img src="/assets/{{evento.imagemURL}}"
@@ -44,16 +46,20 @@
       </td>
       <td>{{evento.tema}}</td>
       <td>{{evento.local}}</td>
-      <td>{{evento.dataEvento}}</td>
+      <td>{{evento.dataEvento | DateTimeFormat}}</td>
       <td>{{evento.qtdPessoas}}</td>
-      <td>{{evento.lote}}</td>
+      <td>{{evento.lotes[0].nome | uppercase}}</td>
       <td>
         <div class="row">
           <div class="col-4 text-left">
-            <button type="button" class="btn btn-primary btn-sm mr-2">Editar</button>
+            <button type="button" class="btn btn-primary btn-sm mr-2" tooltip="Editar">
+              <i class="fa fa-edit"></i>
+            </button>
           </div>
           <div class="col-4 text-left">
-        <button type="button" class="btn btn-danger btn-sm">Deletar</button>
+        <button type="button" class="btn btn-danger btn-sm" tooltip="Deletar" (click)="openModal(template)">
+          <i class="fa fa-trash"></i>
+        </button>
         </div>
       </div>
       </td>
@@ -67,3 +73,11 @@
     </tr>
   </tfoot>
 </table>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Tem certeza que quer deletar este evento?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Não</button>
+  </div>
+</ng-template>
