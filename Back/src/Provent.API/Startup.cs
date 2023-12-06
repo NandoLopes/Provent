@@ -9,7 +9,7 @@ using Provent.Application;
 using Provent.Application.Contract;
 using Provent.Persistence;
 using Provent.Persistence.Context;
-using Provent.Persistence.Contratos;
+using Provent.Persistence.Contracts;
 
 namespace Provent.API
 {
@@ -35,9 +35,9 @@ namespace Provent.API
                         Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
                     
-            services.AddScoped<IEventoService, EventoService>();
-            services.AddScoped<IGeralPersistence, GeralPersistence>();
-            services.AddScoped<IEventoPersistence, EventoPersistence>();
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IGeneralPersistence, GeneralPersistence>();
+            services.AddScoped<IEventPersistence, EventPersistence>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Provent.API", Version = "v1" });

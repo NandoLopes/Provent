@@ -14,28 +14,28 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EventosComponent } from './components/eventos/eventos.component';
-import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
-import { ContatosComponent } from './components/contatos/contatos.component';
+import { EventsComponent } from './components/events/events.component';
+import { SpeakersComponent } from './components/speakers/speakers.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { NavComponent } from './shared/nav/nav.component';
-import { TituloComponent } from './shared/titulo/titulo.component';
+import { TitleComponent } from './shared/title/title.component';
 
-import { EventoService } from './services/evento.service';
+import { EventService } from './services/event.service';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EventosComponent,
-    PalestrantesComponent,
-    ContatosComponent,
+    EventsComponent,
+    SpeakersComponent,
+    ContactsComponent,
     DashboardComponent,
-    PerfilComponent,
+    ProfileComponent,
     NavComponent,
-    TituloComponent,
+    TitleComponent,
     DateTimeFormatPipe
    ],
   imports: [
@@ -56,7 +56,7 @@ import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
     }),
     NgxSpinnerModule
   ],
-  providers: [EventoService],
+  providers: [EventService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

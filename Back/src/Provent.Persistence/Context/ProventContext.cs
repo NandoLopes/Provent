@@ -6,29 +6,29 @@ namespace Provent.Persistence.Context
     public class ProventContext :DbContext
     {
         public ProventContext(DbContextOptions<ProventContext> options) : base(options){ }
-        public DbSet<Evento> Eventos { get; set; }   
-        public DbSet<Lote> Lotes { get; set; }   
-        public DbSet<Palestrante> Palestrantes { get; set; }   
-        public DbSet<PalestranteEvento> PalestrantesEventos { get; set; }   
-        public DbSet<RedeSocial> RedesSociais { get; set; }   
+        public DbSet<Event> Events { get; set; }   
+        public DbSet<Batch> Batches { get; set; }   
+        public DbSet<Speaker> Speakers { get; set; }   
+        public DbSet<SpeakerEvent> SpeakersEvents { get; set; }   
+        public DbSet<SocialNetwork> SocialNetworks { get; set; }   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
-            modelBuilder.Entity<PalestranteEvento>()
-                .HasKey(PE => new {PE.EventoId, PE.PalestranteId});
+            modelBuilder.Entity<SpeakerEvent>()
+                .HasKey(PE => new {PE.EventId, PE.SpeakerId});
 
-            modelBuilder.Entity<Evento>()
-                .HasMany(e => e.RedesSociais)
-                .WithOne(rs => rs.Evento)
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.SocialNetworks)
+                .WithOne(rs => rs.Event)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Palestrante>()
-                .HasMany(p => p.RedesSociais)
-                .WithOne(rs => rs.Palestrante)
+            modelBuilder.Entity<Speaker>()
+                .HasMany(p => p.SocialNetworks)
+                .WithOne(rs => rs.Speaker)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Evento>()
-                .HasMany(e => e.Lotes)
-                .WithOne(rs => rs.Evento)
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Batches)
+                .WithOne(rs => rs.Event)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

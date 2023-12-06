@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EventosComponent } from './components/eventos/eventos.component';
-import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+import { EventsComponent } from './components/events/events.component';
+import { SpeakersComponent } from './components/speakers/speakers.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ContatosComponent } from './components/contatos/contatos.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 
 const routes: Routes = [
-  {path: 'eventos', component: EventosComponent},
-  {path: 'palestrantes', component: PalestrantesComponent},
-  {path: 'perfil', component: PerfilComponent},
+  {path: 'events', component: EventsComponent},
+  {path: 'speakers', component: SpeakersComponent},
+  {path: 'profile', component: ProfileComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'contatos', component: ContatosComponent},
+  {path: 'contacts', component: ContactsComponent},
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   {path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
 ];
