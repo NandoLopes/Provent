@@ -8,7 +8,7 @@ export interface Event {
     theme: string;
     eventDate?: Date;
     capacity: number;
-    imgURL: string;
+    imageURL: string;
     phone: string;
     email: string;
     batches: Batch[];
