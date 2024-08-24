@@ -9,36 +9,81 @@
 
 	<div class="col-md-6">
 
-		<form class="p-1">
+		<form [formGroup]="form" class="p-1">
             <div class="pb-2 d-block d-md-none">
                 <h3 class="border-bottom">User Registration</h3>
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-6">
                     <label>First Name</label>
-                    <input type="text" class="form-control" placeholder="Type the First Name" />
+                    <input type="text" class="form-control"
+                      [ngClass]="{'is-invalid': f.firstName!.errors && f.firstName!.touched}"
+                      formControlName="firstName" placeholder="Type the First Name" />
+                    <div *ngIf="f.firstName!.errors?.required && f.firstName.touched" class="invalid-feedback">
+                        First name required.
+                    </div>
                 </div>
                 <div class="form-group col-sm-6">
                     <label>Last Name</label>
-                    <input type="text" class="form-control" placeholder="Type the Last Name" />
+                    <input type="text" class="form-control"
+                      [ngClass]="{'is-invalid': f.lastName!.errors && f.lastName!.touched}"
+                      formControlName="lastName" placeholder="Type the Last Name" />
+                    <div *ngIf="f.lastName!.errors?.required && f.lastName.touched" class="invalid-feedback">
+                        Last name required.
+                    </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="">E-mail:</label>
-                <input class="form-control" type="text" placeholder="Type the E-mail" />
+                <label for="">Email:</label>
+                <input class="form-control"
+                  [ngClass]="{'is-invalid': f.email!.errors && f.email!.touched}"
+                  formControlName="email" type="text" placeholder="Type the E-mail" />
+                <div *ngIf="f.email!.errors?.required && f.email.touched" class="invalid-feedback">
+                    Email required.
+                </div>
+                <div *ngIf="f.email!.errors?.email && f.email.touched" class="invalid-feedback">
+                  Must be a valid email.
+                </div>
             </div>
             <div class="form-group">
                 <label for="">User:</label>
-                <input class="form-control" type="text" placeholder="Type the Username" />      
+                <input class="form-control"
+                  [ngClass]="{'is-invalid': f.userName!.errors && f.userName!.touched}"
+                  formControlName="userName" type="text" placeholder="Type the Username" />      
+                <div *ngIf="f.userName!.errors?.required && f.userName.touched" class="invalid-feedback">
+                    Username required.
+                </div>
+                <div *ngIf="f.userName!.errors?.minlength && f.userName.touched" class="invalid-feedback">
+                    Must have at least 5 characters.
+                </div>
+                <div *ngIf="f.userName!.errors?.maxlength && f.userName.touched" class="invalid-feedback">
+                    Must be less than 15 characters.
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-6">
                     <label for="">Password:</label>
-                    <input class="form-control" type="password" placeholder="Type a Password" />
+                    <input class="form-control"
+                      [ngClass]="{'is-invalid': f.password!.errors && f.password!.touched}"
+                      formControlName="password" type="password" placeholder="Type a Password" />
+                    <div *ngIf="f.password!.errors?.required && f.password.touched" class="invalid-feedback">
+                        Password required.
+                    </div>
+                    <div *ngIf="f.password!.errors?.minlength && f.password.touched" class="invalid-feedback">
+                        Must have at least 6 characters.
+                    </div>
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="">Confirm Password:</label>
-                    <input class="form-control" type="password" placeholder="Confirm your Password" />
+                    <input class="form-control"
+                      [ngClass]="{'is-invalid': f.confirmPassword!.errors && f.confirmPassword!.touched}"
+                      formControlName="confirmPassword" type="password" placeholder="Confirm your Password" />
+                    <div *ngIf="f.confirmPassword!.errors?.required && f.confirmPassword.touched" class="invalid-feedback">
+                        Password confirmation required.
+                    </div>
+                    <div *ngIf="f.confirmPassword!.errors?.mustMatch && f.confirmPassword.touched" class="invalid-feedback">
+                        Passwords must match.
+                    </div>
                 </div>
             </div>
             <div class="form-row p-1 mb-3">
@@ -62,6 +107,5 @@
                 </div>
             </div>
         </form>
-
 	</div>
 </div>
