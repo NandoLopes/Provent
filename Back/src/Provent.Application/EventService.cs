@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Provent.Application.Contract;
+using Provent.Application.Dtos;
 using Provent.Domain;
 using Provent.Persistence.Contracts;
 
@@ -10,19 +12,26 @@ namespace Provent.Application
     {
         private readonly IGeneralPersistence _generalPersistence;
         private readonly IEventPersistence _myEventPersistence;
+        private readonly IMapper _mapper;
 
-        public EventService(IGeneralPersistence generalPersistence, IEventPersistence myEventPersistence)
+        public EventService(IGeneralPersistence generalPersistence, 
+                            IEventPersistence myEventPersistence,
+                            IMapper mapper)
         {
             _generalPersistence = generalPersistence;
             _myEventPersistence = myEventPersistence;
+            _mapper = mapper;
         }
-        public async Task<Event> AddEvents(Event model)
+        public async Task<EventDto> AddEvents(EventDto model)
         {
             try
             {
-                _generalPersistence.Add<Event>(model);
+                var myEvent = _mapper.Map<Event>(model);
+
+                _generalPersistence.Add<Event>(myEvent);
                 if(await _generalPersistence.SaveChangesAsync()){
-                    return await _myEventPersistence.GetEventByIdAsync(model.Id, false);
+                    var result = await _myEventPersistence.GetEventByIdAsync(myEvent.Id, false);
+                    return _mapper.Map<EventDto>(result);
                 }
                 return null;
             }
@@ -32,18 +41,21 @@ namespace Provent.Application
             }
         }
 
-        public async Task<Event> UpdateEvent(int myEventId, Event model)
+        public async Task<EventDto> UpdateEvent(int myEventId, EventDto model)
         {
             try
             {
-                 var myEvent = await _myEventPersistence.GetEventByIdAsync(myEventId, false);
-                 if(myEvent == null) return null;
+                var eventConfirm = await _myEventPersistence.GetEventByIdAsync(myEventId, false);
+                if(eventConfirm == null) return null;
 
-                model.Id = myEvent.Id;
+                model.Id = eventConfirm.Id;
 
-                _generalPersistence.Update(model);
+                _mapper.Map(model, eventConfirm);
+
+                _generalPersistence.Update<Event>(eventConfirm);
                 if(await _generalPersistence.SaveChangesAsync()){
-                    return await _myEventPersistence.GetEventByIdAsync(model.Id, false);
+                    var result = await _myEventPersistence.GetEventByIdAsync(model.Id, false);
+                    return _mapper.Map<EventDto>(result);
                 }
                 return null;
             }
@@ -57,8 +69,7 @@ namespace Provent.Application
         {
             try
             {
-                 var myEvent = await _myEventPersistence.GetEventByIdAsync(myEventId, false);
-                 if(myEvent == null) throw new Exception("Event not found to delete.");
+                 var myEvent = await _myEventPersistence.GetEventByIdAsync(myEventId, false) ?? throw new Exception("Event not found to delete.");
 
                 _generalPersistence.Delete<Event>(myEvent);
                 return await _generalPersistence.SaveChangesAsync();
@@ -69,14 +80,14 @@ namespace Provent.Application
             }
         }
 
-        public async Task<Event[]> GetAllEventsAsync(bool includeSpeakers = false)
+        public async Task<EventDto[]> GetAllEventsAsync(bool includeSpeakers = false)
         {
             try
             {
                  var myEvents = await _myEventPersistence.GetAllEventsAsync(includeSpeakers);
                  if(myEvents == null) return null;
 
-                 return myEvents;
+                 return _mapper.Map<EventDto[]>(myEvents);
             }
             catch (Exception ex)
             {
@@ -84,14 +95,14 @@ namespace Provent.Application
             }
         }
 
-        public async Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeakers = false)
+        public async Task<EventDto[]> GetAllEventsByThemeAsync(string theme, bool includeSpeakers = false)
         {
             try
             {
                  var myEvents = await _myEventPersistence.GetAllEventsByThemeAsync(theme, includeSpeakers);
                  if(myEvents == null) return null;
 
-                 return myEvents;
+                 return _mapper.Map<EventDto[]>(myEvents);
             }
             catch (Exception ex)
             {
@@ -99,14 +110,14 @@ namespace Provent.Application
             }
         }
 
-        public async Task<Event> GetEventByIdAsync(int myEventId, bool includeSpeakers = false)
+        public async Task<EventDto> GetEventByIdAsync(int myEventId, bool includeSpeakers = false)
         {
             try
             {
-                 var myEvents = await _myEventPersistence.GetEventByIdAsync(myEventId, includeSpeakers);
-                 if(myEvents == null) return null;
+                 var myEvent = await _myEventPersistence.GetEventByIdAsync(myEventId, includeSpeakers);
+                 if(myEvent == null) return null;
 
-                 return myEvents;
+                 return _mapper.Map<EventDto>(myEvent);
             }
             catch (Exception ex)
             {

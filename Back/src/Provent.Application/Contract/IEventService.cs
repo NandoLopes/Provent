@@ -1,16 +1,16 @@
-using Provent.Domain;
+using Provent.Application.Dtos;
 using System.Threading.Tasks;
 
 namespace Provent.Application.Contract
 {
     public interface IEventService
     {
-        Task<Event> AddEvents(Event model);
-        Task<Event> UpdateEvent(int myEventId, Event model);
+        Task<EventDto> AddEvents(EventDto model);
+        Task<EventDto> UpdateEvent(int myEventId, EventDto model);
         Task<bool> DeleteEvent(int myEventId);
 
-        Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeakers = false);
-        Task<Event[]> GetAllEventsAsync(bool includeSpeakers = false);
-        Task<Event> GetEventByIdAsync(int myEventId, bool includeSpeakers = false);
+        Task<EventDto[]> GetAllEventsByThemeAsync(string theme, bool includeSpeakers = false);
+        Task<EventDto[]> GetAllEventsAsync(bool includeSpeakers = false);
+        Task<EventDto> GetEventByIdAsync(int myEventId, bool includeSpeakers = false);
     }
 }

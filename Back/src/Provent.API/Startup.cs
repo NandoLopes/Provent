@@ -10,6 +10,7 @@ using Provent.Application.Contract;
 using Provent.Persistence;
 using Provent.Persistence.Context;
 using Provent.Persistence.Contracts;
+using System;
 
 namespace Provent.API
 {
@@ -35,6 +36,8 @@ namespace Provent.API
                         Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
                     
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IGeneralPersistence, GeneralPersistence>();
             services.AddScoped<IEventPersistence, EventPersistence>();
